@@ -3,1071 +3,448 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopEase - Modern E-Commerce</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>FreshMart - Groceries Delivered in Minutes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #f1f5f9;
-            --dark: #1e293b;
-            --gray: #64748b;
-            --light-gray: #e2e8f0;
-            --white: #ffffff;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-            --radius: 12px;
-            --radius-lg: 16px;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-
-        /* Navbar Styles */
-        .navbar {
-            background: var(--white);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 2rem;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
-        }
-
-        .logo i {
-            font-size: 1.75rem;
-        }
-
-        .search-bar {
-            flex: 1;
-            max-width: 500px;
-            display: flex;
-            background: var(--secondary);
-            border-radius: 50px;
-            overflow: hidden;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-
-        .search-bar:focus-within {
-            border-color: var(--primary);
-            background: var(--white);
-        }
-
-        .search-bar input {
-            flex: 1;
-            padding: 0.75rem 1.25rem;
-            border: none;
-            background: transparent;
-            font-size: 0.95rem;
-            outline: none;
-            font-family: inherit;
-        }
-
-        .search-bar button {
-            padding: 0.75rem 1.25rem;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .search-bar button:hover {
-            background: var(--primary-dark);
-        }
-
-        .nav-icons {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .cart-icon {
-            position: relative;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .cart-icon:hover {
-            background: var(--secondary);
-        }
-
-        .cart-icon i {
-            font-size: 1.25rem;
-            color: var(--dark);
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--primary);
-            color: var(--white);
-            font-size: 0.7rem;
-            font-weight: 600;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .profile-dropdown {
-            position: relative;
-        }
-
-        .profile-icon {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            background: var(--secondary);
-            transition: all 0.3s ease;
-        }
-
-        .profile-icon:hover {
-            background: var(--light-gray);
-        }
-
-        .profile-icon .fa-user {
-            font-size: 1rem;
-        }
-
-        .profile-icon .fa-chevron-down {
-            font-size: 0.7rem;
-            transition: transform 0.3s ease;
-        }
-
-        .profile-dropdown.active .fa-chevron-down {
-            transform: rotate(180deg);
-        }
-
-        .dropdown-menu {
-            position: absolute;
-            top: calc(100% + 10px);
-            right: 0;
-            background: var(--white);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            min-width: 200px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-
-        .profile-dropdown.active .dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-menu a {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.875rem 1.25rem;
-            color: var(--dark);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .dropdown-menu a:hover {
-            background: var(--secondary);
-            color: var(--primary);
-        }
-
-        .dropdown-menu .divider {
-            height: 1px;
-            background: var(--light-gray);
-            margin: 0.5rem 0;
-        }
-
-        .dropdown-menu .logout {
-            color: #ef4444;
-        }
-
-        .dropdown-menu .logout:hover {
-            background: #fef2f2;
-            color: #ef4444;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            cursor: pointer;
-            padding: 0.5rem;
-            font-size: 1.5rem;
-        }
-
-        /* Mobile Navigation */
-        .mobile-nav {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .mobile-nav.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .mobile-nav-content {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 100%;
-            background: var(--white);
-            padding: 2rem;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-        }
-
-        .mobile-nav.active .mobile-nav-content {
-            transform: translateX(0);
-        }
-
-        .mobile-nav-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .mobile-nav-close {
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        .mobile-nav-links a {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 0;
-            color: var(--dark);
-            text-decoration: none;
-            border-bottom: 1px solid var(--light-gray);
-            transition: color 0.3s ease;
-        }
-
-        .mobile-nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .mobile-search {
-            margin-top: 1.5rem;
-        }
-
-        .mobile-search input {
-            width: 100%;
-            padding: 0.875rem 1rem;
-            border: 2px solid var(--light-gray);
-            border-radius: var(--radius);
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-
-        .mobile-search input:focus {
-            border-color: var(--primary);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
-            padding: 4rem 2rem;
-            margin: 1.5rem;
-            border-radius: var(--radius-lg);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 400px;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-        }
-
-        .hero-content {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--white);
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 2rem;
-        }
-
-        .cta-btn {
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            background: var(--white);
-            color: var(--primary);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Categories Section */
-        .categories {
-            padding: 3rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .categories h2,
-        .featured-products h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            text-align: center;
-            color: var(--dark);
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .category-card {
-            background: var(--white);
-            padding: 2rem 1.5rem;
-            border-radius: var(--radius);
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow);
-            border: 2px solid transparent;
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .category-icon {
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 1rem;
-            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .category-icon i {
-            font-size: 1.75rem;
-            color: var(--white);
-        }
-
-        .category-card h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        /* Featured Products Section */
-        .featured-products {
-            padding: 3rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .product-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .product-image {
-            position: relative;
-            height: 220px;
-            background: var(--secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.1);
-        }
-
-        .product-badge {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            padding: 0.35rem 0.75rem;
-            background: var(--warning);
-            color: var(--white);
-            font-size: 0.75rem;
-            font-weight: 600;
-            border-radius: 50px;
-        }
-
-        .product-wishlist {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 36px;
-            height: 36px;
-            background: var(--white);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow);
-        }
-
-        .product-wishlist:hover {
-            background: #fef2f2;
-        }
-
-        .product-wishlist i {
-            color: #ef4444;
-            font-size: 1rem;
-        }
-
-        .product-wishlist.active i {
-            font-weight: 900;
-        }
-
-        .product-info {
-            padding: 1.25rem;
-        }
-
-        .product-name {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .product-rating {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .stars {
-            display: flex;
-            gap: 2px;
-        }
-
-        .stars i {
-            color: var(--warning);
-            font-size: 0.85rem;
-        }
-
-        .stars i.empty {
-            color: var(--light-gray);
-        }
-
-        .rating-count {
-            font-size: 0.85rem;
-            color: var(--gray);
-        }
-
-        .product-price {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-
-        .current-price {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .original-price {
-            font-size: 0.95rem;
-            color: var(--gray);
-            text-decoration: line-through;
-        }
-
-        .add-to-cart-btn {
-            width: 100%;
-            padding: 0.875rem;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            border-radius: var(--radius);
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        .add-to-cart-btn:hover {
-            background: var(--primary-dark);
-        }
-
-        .add-to-cart-btn.added {
-            background: var(--success);
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: var(--white);
-            padding: 3rem 2rem;
-            margin-top: 3rem;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-        }
-
-        .footer-section h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1.25rem;
-            color: var(--white);
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 0.75rem;
-        }
-
-        .footer-section ul li a {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-section ul li a:hover {
-            color: var(--white);
-        }
-
-        .footer-social {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .footer-social a {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            transition: all 0.3s ease;
-        }
-
-        .footer-social a:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 2rem auto 0;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--dark);
-            color: var(--white);
-            padding: 1rem 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 3000;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .toast i {
-            color: var(--success);
-            font-size: 1.25rem;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 1024px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero p {
-                font-size: 1.1rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-container {
-                padding: 1rem;
-            }
-
-            .search-bar {
-                display: none;
-            }
-
-            .nav-icons {
-                gap: 1rem;
-            }
-
-            .profile-dropdown .dropdown-menu {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .mobile-nav {
-                display: block;
-            }
-
-            .hero {
-                margin: 1rem;
-                padding: 3rem 1.5rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .categories,
-            .featured-products {
-                padding: 2rem 1rem;
-            }
-
-            .categories h2,
-            .featured-products h2 {
-                font-size: 1.5rem;
-            }
-
-            .categories-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1rem;
-            }
-
-            .category-card {
-                padding: 1.25rem 0.75rem;
-            }
-
-            .category-icon {
-                width: 50px;
-                height: 50px;
-            }
-
-            .category-icon i {
-                font-size: 1.25rem;
-            }
-
-            .category-card h3 {
-                font-size: 0.85rem;
-            }
-
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-
-            .product-image {
-                height: 160px;
-            }
-
-            .product-info {
-                padding: 1rem;
-            }
-
-            .product-name {
-                font-size: 0.9rem;
-            }
-
-            .current-price {
-                font-size: 1.1rem;
-            }
-
-            .original-price {
-                font-size: 0.85rem;
-            }
-
-            .add-to-cart-btn {
-                padding: 0.75rem;
-                font-size: 0.85rem;
-            }
-
-            .toast {
-                left: 1rem;
-                right: 1rem;
-                bottom: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .categories-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .product-image {
-                height: 200px;
-            }
-
-            .footer-content {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .product-card {
-            animation: fadeInUp 0.5s ease forwards;
-        }
-
-        .product-card:nth-child(1) { animation-delay: 0.1s; }
-        .product-card:nth-child(2) { animation-delay: 0.2s; }
-        .product-card:nth-child(3) { animation-delay: 0.3s; }
-        .product-card:nth-child(4) { animation-delay: 0.4s; }
-        .product-card:nth-child(5) { animation-delay: 0.5s; }
-        .product-card:nth-child(6) { animation-delay: 0.6s; }
-        .product-card:nth-child(7) { animation-delay: 0.7s; }
-        .product-card:nth-child(8) { animation-delay: 0.8s; }
-    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-shopping-bag"></i>
-                <span>ShopEase</span>
+    <!-- Top Strip -->
+    <div class="top-strip">
+        <p><i class="fas fa-bolt"></i> Free delivery on orders above ₹199 | Use code: FRESH50 for 50% off</p>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-leaf"></i>
+                    <span>Fresh<span class="logo-highlight">Mart</span></span>
+                </div>
+                <div class="location" id="locationBtn">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="location-text">
+                        <span class="deliver-to">Deliver to</span>
+                        <span class="address">Select Location <i class="fas fa-chevron-down"></i></span>
+                    </div>
+                </div>
             </div>
-            
+
             <div class="search-bar">
-                <input type="text" placeholder="Search for products, brands and more...">
-                <button><i class="fas fa-search"></i></button>
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search for groceries, fruits, vegetables..." id="searchInput">
+                <button class="voice-search" id="voiceBtn">
+                    <i class="fas fa-microphone"></i>
+                </button>
             </div>
-            
-            <div class="nav-icons">
-                <div class="cart-icon" id="cartIcon">
+
+            <div class="header-right">
+                <div class="header-icon" id="offersBtn">
+                    <i class="fas fa-percentage"></i>
+                    <span>Offers</span>
+                </div>
+                <div class="header-icon" id="accountBtn">
+                    <i class="fas fa-user"></i>
+                    <span>Account</span>
+                </div>
+                <div class="header-icon cart" id="cartBtn">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count" id="cartCount">0</span>
+                    <span>Cart</span>
+                    <div class="cart-badge" id="cartBadge">0</div>
                 </div>
-                
-                <div class="profile-dropdown" id="profileDropdown">
-                    <div class="profile-icon">
-                        <i class="fas fa-user"></i>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="dropdown-menu">
-                        <a href="#"><i class="fas fa-user-circle"></i> Profile</a>
-                        <a href="#"><i class="fas fa-box"></i> Orders</a>
-                        <a href="#"><i class="fas fa-cog"></i> Settings</a>
-                        <div class="divider"></div>
-                        <a href="#" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <!-- Mobile Navigation -->
-    <div class="mobile-nav" id="mobileNav">
-        <div class="mobile-nav-content">
-            <div class="mobile-nav-header">
-                <div class="logo">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span>ShopEase</span>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <div class="mobile-top">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+                <span>Fresh<span class="logo-highlight">Mart</span></span>
+            </div>
+            <div class="mobile-icons">
+                <i class="fas fa-search" id="mobileSearchBtn"></i>
+                <div class="cart-icon-mobile">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge-mobile">0</span>
                 </div>
-                <div class="mobile-nav-close" id="mobileNavClose">
-                    <i class="fas fa-times"></i>
-                </div>
             </div>
-            <div class="mobile-search">
-                <input type="text" placeholder="Search products...">
-            </div>
-            <div class="mobile-nav-links">
-                <a href="#"><i class="fas fa-user-circle"></i> Profile</a>
-                <a href="#"><i class="fas fa-box"></i> Orders</a>
-                <a href="#"><i class="fas fa-shopping-cart"></i> Cart <span id="mobileCartCount">(0)</span></a>
-                <a href="#"><i class="fas fa-cog"></i> Settings</a>
-                <a href="#" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </div>
+        </div>
+        <div class="mobile-location">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Deliver to: Select Location</span>
+            <i class="fas fa-chevron-down"></i>
         </div>
     </div>
 
     <!-- Hero Banner -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Summer Sale is Here!</h1>
-            <p>Get up to 50% off on all products. Limited time offer - Don't miss out on amazing deals!</p>
-            <button class="cta-btn" onclick="scrollToProducts()">
-                Shop Now <i class="fas fa-arrow-right"></i>
-            </button>
+    <section class="hero-banner">
+        <div class="banner-slider" id="bannerSlider">
+            <div class="banner-slide active">
+                <div class="banner-content">
+                    <div class="banner-text">
+                        <span class="delivery-time"><i class="fas fa-bolt"></i> Delivery in 10 minutes</span>
+                        <h1>Fresh Groceries<br>at Your Doorstep</h1>
+                        <p>Get farm-fresh vegetables, fruits, dairy & more</p>
+                        <button class="shop-now-btn">Shop Now <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <div class="banner-image">
+                        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=500" alt="Fresh Groceries">
+                    </div>
+                </div>
+            </div>
+            <div class="banner-slide">
+                <div class="banner-content">
+                    <div class="banner-text">
+                        <span class="delivery-time"><i class="fas fa-tag"></i> Up to 60% Off</span>
+                        <h1>Weekend<br>Super Sale</h1>
+                        <p>Massive discounts on all categories</p>
+                        <button class="shop-now-btn">Explore Deals <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <div class="banner-image">
+                        <img src="https://images.unsplash.com/photo-1608686207856-001b95cf60ca?w=500" alt="Sale">
+                    </div>
+                </div>
+            </div>
+            <div class="banner-slide">
+                <div class="banner-content">
+                    <div class="banner-text">
+                        <span class="delivery-time"><i class="fas fa-apple-alt"></i> 100% Organic</span>
+                        <h1>Organic<br>Farm Products</h1>
+                        <p>Healthy choices for healthy living</p>
+                        <button class="shop-now-btn">Shop Organic <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <div class="banner-image">
+                        <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=500" alt="Organic">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="banner-dots">
+            <span class="dot active" data-slide="0"></span>
+            <span class="dot" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+        </div>
+        <button class="banner-nav prev" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
+        <button class="banner-nav next" id="nextSlide"><i class="fas fa-chevron-right"></i></button>
+    </section>
+
+    <!-- Delivery Promise -->
+    <section class="delivery-promise">
+        <div class="container">
+            <div class="promise-card">
+                <i class="fas fa-shipping-fast"></i>
+                <div>
+                    <h4>10 Min Delivery</h4>
+                    <p>Lightning fast delivery</p>
+                </div>
+            </div>
+            <div class="promise-card">
+                <i class="fas fa-leaf"></i>
+                <div>
+                    <h4>Farm Fresh</h4>
+                    <p>Directly from farms</p>
+                </div>
+            </div>
+            <div class="promise-card">
+                <i class="fas fa-shield-alt"></i>
+                <div>
+                    <h4>Best Quality</h4>
+                    <p>100% quality assured</p>
+                </div>
+            </div>
+            <div class="promise-card">
+                <i class="fas fa-undo"></i>
+                <div>
+                    <h4>Easy Returns</h4>
+                    <p>No questions asked</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Categories Section -->
-    <section class="categories">
-        <h2>Shop by Category</h2>
-        <div class="categories-grid">
-            <div class="category-card" onclick="filterByCategory('Electronics')">
-                <div class="category-icon">
-                    <i class="fas fa-laptop"></i>
-                </div>
-                <h3>Electronics</h3>
+    <section class="categories-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Shop by Category</h2>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="category-card" onclick="filterByCategory('Fashion')">
-                <div class="category-icon">
-                    <i class="fas fa-tshirt"></i>
-                </div>
-                <h3>Fashion</h3>
-            </div>
-            <div class="category-card" onclick="filterByCategory('Home')">
-                <div class="category-icon">
-                    <i class="fas fa-home"></i>
-                </div>
-                <h3>Home</h3>
-            </div>
-            <div class="category-card" onclick="filterByCategory('Beauty')">
-                <div class="category-icon">
-                    <i class="fas fa-spa"></i>
-                </div>
-                <h3>Beauty</h3>
-            </div>
-            <div class="category-card" onclick="filterByCategory('Sports')">
-                <div class="category-icon">
-                    <i class="fas fa-futbol"></i>
-                </div>
-                <h3>Sports</h3>
-            </div>
-            <div class="category-card" onclick="filterByCategory('Groceries')">
-                <div class="category-icon">
-                    <i class="fas fa-apple-alt"></i>
-                </div>
-                <h3>Groceries</h3>
+            <div class="categories-grid" id="categoriesGrid">
+                <!-- Categories will be loaded by JS -->
             </div>
         </div>
     </section>
 
-    <!-- Featured Products Section -->
-    <section class="featured-products" id="featuredProducts">
-        <h2>Featured Products</h2>
-        <div class="products-grid" id="productsGrid">
-            <!-- Products will be dynamically inserted here -->
+    <!-- Offers Banner -->
+    <section class="offers-banner">
+        <div class="container">
+            <div class="offer-card offer-1">
+                <div class="offer-content">
+                    <span class="offer-tag">Limited Time</span>
+                    <h3>Fresh Fruits</h3>
+                    <p>Up to 40% Off</p>
+                    <button class="offer-btn">Order Now</button>
+                </div>
+                <img src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=300" alt="Fruits">
+            </div>
+            <div class="offer-card offer-2">
+                <div class="offer-content">
+                    <span class="offer-tag">Daily Fresh</span>
+                    <h3>Dairy Products</h3>
+                    <p>Starting ₹29</p>
+                    <button class="offer-btn">Shop Now</button>
+                </div>
+                <img src="https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=300" alt="Dairy">
+            </div>
+            <div class="offer-card offer-3">
+                <div class="offer-content">
+                    <span class="offer-tag">Super Saver</span>
+                    <h3>Snacks & More</h3>
+                    <p>Buy 2 Get 1 Free</p>
+                    <button class="offer-btn">Grab Deal</button>
+                </div>
+                <img src="https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=300" alt="Snacks">
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Sellers -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-fire"></i> Best Sellers</h2>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="products-slider">
+                <button class="slider-nav prev-btn" id="bestSellerPrev"><i class="fas fa-chevron-left"></i></button>
+                <div class="products-grid" id="bestSellersGrid">
+                    <!-- Products will be loaded by JS -->
+                </div>
+                <button class="slider-nav next-btn" id="bestSellerNext"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deal of the Day -->
+    <section class="deal-section">
+        <div class="container">
+            <div class="deal-banner">
+                <div class="deal-content">
+                    <span class="deal-tag"><i class="fas fa-clock"></i> Deal of the Day</span>
+                    <h2>Fresh Organic Vegetables Bundle</h2>
+                    <p>Get a combo of 10 fresh vegetables at an unbelievable price!</p>
+                    <div class="deal-price">
+                        <span class="current-price">₹199</span>
+                        <span class="original-price">₹399</span>
+                        <span class="discount">50% OFF</span>
+                    </div>
+                    <div class="deal-timer">
+                        <div class="timer-box">
+                            <span id="hours">05</span>
+                            <small>Hours</small>
+                        </div>
+                        <div class="timer-box">
+                            <span id="minutes">32</span>
+                            <small>Mins</small>
+                        </div>
+                        <div class="timer-box">
+                            <span id="seconds">48</span>
+                            <small>Secs</small>
+                        </div>
+                    </div>
+                    <button class="grab-deal-btn">Grab This Deal <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="deal-image">
+                    <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500" alt="Deal">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fresh Arrivals -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-star"></i> Fresh Arrivals</h2>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="products-grid" id="freshArrivalsGrid">
+                <!-- Products will be loaded by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- App Download Section -->
+    <section class="app-section">
+        <div class="container">
+            <div class="app-content">
+                <div class="app-text">
+                    <h2>Get the FreshMart App</h2>
+                    <p>Download the app for exclusive offers, faster checkout, and real-time order tracking!</p>
+                    <div class="app-features">
+                        <div class="app-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Exclusive app-only deals</span>
+                        </div>
+                        <div class="app-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Real-time order tracking</span>
+                        </div>
+                        <div class="app-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Faster checkout</span>
+                        </div>
+                    </div>
+                    <div class="app-buttons">
+                        <a href="#" class="app-btn">
+                            <i class="fab fa-apple"></i>
+                            <div>
+                                <small>Download on</small>
+                                <span>App Store</span>
+                            </div>
+                        </a>
+                        <a href="#" class="app-btn">
+                            <i class="fab fa-google-play"></i>
+                            <div>
+                                <small>Get it on</small>
+                                <span>Google Play</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="app-image">
+                    <div class="phone-mockup">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>About ShopEase</h4>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press</a></li>
-                    <li><a href="#">Blog</a></li>
-                </ul>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <i class="fas fa-leaf"></i>
+                        <span>Fresh<span class="logo-highlight">Mart</span></span>
+                    </div>
+                    <p>Your one-stop destination for fresh groceries, fruits, vegetables, dairy, and more. Delivered to your doorstep in minutes!</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="#">Fruits & Vegetables</a></li>
+                        <li><a href="#">Dairy & Bakery</a></li>
+                        <li><a href="#">Beverages</a></li>
+                        <li><a href="#">Snacks</a></li>
+                        <li><a href="#">Personal Care</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Market Street, City</li>
+                        <li><i class="fas fa-phone"></i> +91 1234567890</li>
+                        <li><i class="fas fa-envelope"></i> support@freshmart.com</li>
+                    </ul>
+                    <h4>We Accept</h4>
+                    <div class="payment-methods">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-paypal"></i>
+                        <i class="fab fa-google-pay"></i>
+                    </div>
+                </div>
             </div>
-            <div class="footer-section">
-                <h4>Customer Service</h4>
-                <ul>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Shipping Info</a></li>
-                    <li><a href="#">Returns</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="#">Track Order</a></li>
-                    <li><a href="#">Gift Cards</a></li>
-                    <li><a href="#">Store Locator</a></li>
-                    <li><a href="#">Affiliates</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Connect With Us</h4>
-                <p style="color: rgba(255,255,255,0.7); margin-bottom: 1rem;">Follow us on social media for updates and exclusive offers.</p>
-                <div class="footer-social">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+            <div class="footer-bottom">
+                <p>&copy; 2024 FreshMart. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Refund Policy</a>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 ShopEase. All rights reserved. | Privacy Policy | Terms of Service</p>
-        </div>
     </footer>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3><i class="fas fa-shopping-cart"></i> Your Cart</h3>
+            <button class="close-cart" id="closeCart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be loaded by JS -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">₹0</span>
+            </div>
+            <button class="checkout-btn">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Location Modal -->
+    <div class="modal" id="locationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Select Delivery Location</h3>
+                <button class="close-modal" id="closeLocationModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="location-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search for area, street name...">
+                </div>
+                <button class="current-location-btn">
+                    <i class="fas fa-crosshairs"></i>
+                    Use Current Location
+                </button>
+                <div class="saved-locations">
+                    <h4>Saved Addresses</h4>
+                    <div class="location-item">
+                        <i class="fas fa-home"></i>
+                        <div>
+                            <span>Home</span>
+                            <p>123 Main Street, Apartment 4B</p>
+                        </div>
+                    </div>
+                    <div class="location-item">
+                        <i class="fas fa-briefcase"></i>
+                        <div>
+                            <span>Office</span>
+                            <p>456 Business Park, Floor 5</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Toast Notification -->
     <div class="toast" id="toast">
@@ -1075,306 +452,6 @@
         <span id="toastMessage">Item added to cart!</span>
     </div>
 
-    <script>
-        // Product Data
-        const products = [
-            {
-                id: 1,
-                name: "Wireless Bluetooth Headphones Pro",
-                price: 79.99,
-                originalPrice: 129.99,
-                rating: 4.5,
-                reviews: 2345,
-                image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
-                badge: "Sale",
-                category: "Electronics"
-            },
-            {
-                id: 2,
-                name: "Smart Watch Series 5",
-                price: 299.99,
-                originalPrice: 399.99,
-                rating: 4.8,
-                reviews: 1892,
-                image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",
-                badge: "New",
-                category: "Electronics"
-            },
-            {
-                id: 3,
-                name: "Premium Cotton T-Shirt",
-                price: 29.99,
-                originalPrice: 49.99,
-                rating: 4.3,
-                reviews: 567,
-                image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400",
-                badge: null,
-                category: "Fashion"
-            },
-            {
-                id: 4,
-                name: "Modern Desk Lamp LED",
-                price: 45.99,
-                originalPrice: 69.99,
-                rating: 4.6,
-                reviews: 834,
-                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
-                badge: "Sale",
-                category: "Home"
-            },
-            {
-                id: 5,
-                name: "Natural Skincare Set",
-                price: 89.99,
-                originalPrice: 129.99,
-                rating: 4.7,
-                reviews: 1456,
-                image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400",
-                badge: "Bestseller",
-                category: "Beauty"
-            },
-            {
-                id: 6,
-                name: "Running Shoes Pro Max",
-                price: 149.99,
-                originalPrice: 199.99,
-                rating: 4.9,
-                reviews: 2156,
-                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",
-                badge: "Hot",
-                category: "Sports"
-            },
-            {
-                id: 7,
-                name: "Organic Coffee Beans 1kg",
-                price: 24.99,
-                originalPrice: 34.99,
-                rating: 4.4,
-                reviews: 789,
-                image: "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400",
-                badge: null,
-                category: "Groceries"
-            },
-            {
-                id: 8,
-                name: "Minimalist Backpack",
-                price: 59.99,
-                originalPrice: 89.99,
-                rating: 4.6,
-                reviews: 1234,
-                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400",
-                badge: "Sale",
-                category: "Fashion"
-            }
-        ];
-
-        let cart = [];
-        let wishlist = [];
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            renderProducts(products);
-            setupEventListeners();
-        });
-
-        // Render Products
-        function renderProducts(productsToRender) {
-            const productsGrid = document.getElementById('productsGrid');
-            productsGrid.innerHTML = '';
-
-            productsToRender.forEach((product, index) => {
-                const isInWishlist = wishlist.includes(product.id);
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                productCard.style.animationDelay = `${index * 0.1}s`;
-                
-                productCard.innerHTML = `
-                    <div class="product-image">
-                        <img src="${product.image}" alt="${product.name}" loading="lazy">
-                        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
-                        <div class="product-wishlist ${isInWishlist ? 'active' : ''}" onclick="toggleWishlist(${product.id}, event)">
-                            <i class="${isInWishlist ? 'fas' : 'far'} fa-heart"></i>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-name">${product.name}</h3>
-                        <div class="product-rating">
-                            <div class="stars">
-                                ${generateStars(product.rating)}
-                            </div>
-                            <span class="rating-count">(${product.reviews.toLocaleString()})</span>
-                        </div>
-                        <div class="product-price">
-                            <span class="current-price">$${product.price.toFixed(2)}</span>
-                            ${product.originalPrice ? `<span class="original-price">$${product.originalPrice.toFixed(2)}</span>` : ''}
-                        </div>
-                        <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
-                            <i class="fas fa-shopping-cart"></i>
-                            Add to Cart
-                        </button>
-                    </div>
-                `;
-                
-                productsGrid.appendChild(productCard);
-            });
-        }
-
-        // Generate star rating HTML
-        function generateStars(rating) {
-            let starsHTML = '';
-            const fullStars = Math.floor(rating);
-            const hasHalfStar = rating % 1 >= 0.5;
-            
-            for (let i = 0; i < fullStars; i++) {
-                starsHTML += '<i class="fas fa-star"></i>';
-            }
-            
-            if (hasHalfStar) {
-                starsHTML += '<i class="fas fa-star-half-alt"></i>';
-            }
-            
-            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-            for (let i = 0; i < emptyStars; i++) {
-                starsHTML += '<i class="fas fa-star empty"></i>';
-            }
-            
-            return starsHTML;
-        }
-
-        // Add to Cart
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            if (product) {
-                cart.push(product);
-                updateCartCount();
-                showToast(`${product.name} added to cart!`);
-                
-                // Animate button
-                const buttons = document.querySelectorAll('.add-to-cart-btn');
-                buttons.forEach(btn => {
-                    if (btn.onclick.toString().includes(productId)) {
-                        btn.classList.add('added');
-                        btn.innerHTML = '<i class="fas fa-check"></i> Added';
-                        setTimeout(() => {
-                            btn.classList.remove('added');
-                            btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Add to Cart';
-                        }, 2000);
-                    }
-                });
-            }
-        }
-
-        // Toggle Wishlist
-        function toggleWishlist(productId, event) {
-            event.stopPropagation();
-            const index = wishlist.indexOf(productId);
-            const wishlistBtn = event.currentTarget;
-            const icon = wishlistBtn.querySelector('i');
-            
-            if (index > -1) {
-                wishlist.splice(index, 1);
-                wishlistBtn.classList.remove('active');
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-                showToast('Removed from wishlist');
-            } else {
-                wishlist.push(productId);
-                wishlistBtn.classList.add('active');
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-                showToast('Added to wishlist');
-            }
-        }
-
-        // Update Cart Count
-        function updateCartCount() {
-            const cartCount = document.getElementById('cartCount');
-            const mobileCartCount = document.getElementById('mobileCartCount');
-            cartCount.textContent = cart.length;
-            mobileCartCount.textContent = `(${cart.length})`;
-        }
-
-        // Show Toast Notification
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            toastMessage.textContent = message;
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Filter by Category
-        function filterByCategory(category) {
-            const filteredProducts = products.filter(p => p.category === category);
-            renderProducts(filteredProducts);
-            document.getElementById('featuredProducts').scrollIntoView({ behavior: 'smooth' });
-            showToast(`Showing ${category} products`);
-        }
-
-        // Scroll to Products
-        function scrollToProducts() {
-            document.getElementById('featuredProducts').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Setup Event Listeners
-        function setupEventListeners() {
-            // Profile Dropdown
-            const profileDropdown = document.getElementById('profileDropdown');
-            profileDropdown.addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function() {
-                profileDropdown.classList.remove('active');
-            });
-
-            // Mobile Menu
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const mobileNav = document.getElementById('mobileNav');
-            const mobileNavClose = document.getElementById('mobileNavClose');
-
-            mobileMenuBtn.addEventListener('click', function() {
-                mobileNav.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-
-            mobileNavClose.addEventListener('click', function() {
-                mobileNav.classList.remove('active');
-                document.body.style.overflow = '';
-            });
-
-            mobileNav.addEventListener('click', function(e) {
-                if (e.target === mobileNav) {
-                    mobileNav.classList.remove('active');
-                    document.body.style.overflow = '';
-                }
-            });
-
-            // Search functionality
-            const searchInput = document.querySelector('.search-bar input');
-            searchInput.addEventListener('input', function(e) {
-                const searchTerm = e.target.value.toLowerCase();
-                if (searchTerm.length > 2) {
-                    const filteredProducts = products.filter(p => 
-                        p.name.toLowerCase().includes(searchTerm) ||
-                        p.category.toLowerCase().includes(searchTerm)
-                    );
-                    renderProducts(filteredProducts);
-                } else if (searchTerm.length === 0) {
-                    renderProducts(products);
-                }
-            });
-
-            // Cart icon click
-            document.getElementById('cartIcon').addEventListener('click', function() {
-                showToast(`You have ${cart.length} items in your cart`);
-            });
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
